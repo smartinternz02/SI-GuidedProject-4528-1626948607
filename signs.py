@@ -1,3 +1,7 @@
+''' This code is used to upload images to cloudant database'''
+
+
+
 import datetime
 import ibm_boto3
 from ibm_botocore.client import Config, ClientError
@@ -53,9 +57,9 @@ def multi_part_upload(bucket_name, item_name, file_path):
         print("CLIENT ERROR: {0}\n".format(be))
     except Exception as e:
         print("Unable to complete multi-part upload: {0}".format(e))
-picname='download (4)' #datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
+picname='download (5)' #datetime.datetime.now().strftime("%y-%m-%d-%H-%M")
 multi_part_upload('karthikvit', picname+'.jpg', picname+'.jpg')
 json_document={"link":COS_ENDPOINT+'/'+bucket+'/'+picname+'.jpg'}
-response = service.post_document(db='ped', document=json_document).get_result()
+response = service.post_document(db='left', document=json_document).get_result()
         
   

@@ -24,7 +24,7 @@ city_name = input("Enter city name : ")
 #complete_url = base_url  + "appid=" + api_key + "&q=" + city_name '''
 
 
-complete_url = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=560c4b69bb0a2c87ee3b704e9efed8e8&q=Delhi"
+complete_url = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid=560c4b69bb0a2c87ee3b704e9efed8e8&q=Jammu and Kashmir"
 print(complete_url)
 
 # get method of requests module
@@ -117,12 +117,25 @@ def myCommandCallback(cmd):
 client = wiotp.sdk.device.DeviceClient(config=myConfig, logHandlers=None)
 client.connect()
 
-myData={'temperature':current_temperature, 'humidity':current_humidity, 'des':weather_description,'visible':current_visibility,'Speed':speed}
+location = 'Jammu and Kashmir'
+
+myData={'temperature':current_temperature, 'humidity':current_humidity, 'des':weather_description,'visible':current_visibility,'Speed':speed,'place':location}
 client.publishEvent(eventId="status", msgFormat="json", data=myData, qos=0, onPublish=None)
 print("Published data Successfully: %s", myData)
 while True:
     #temp=random.randint(-20,125)
-    #hum=random.randint(0,100)
+    #myData={'density':tf_density}
+    tf_density = random.randint(0,100)
+    dens = tf_density
+    if tf_density > 80:
+        tf_density = 'Pls take left diversion , Traffic ahead'
+        divr = True
+    else:
+        tf_density = 'Safe Journey'
+        divr = False
+    myData={'density':tf_density,'div':divr,'density_1':dens}
+    client.publishEvent(eventId="status", msgFormat="json", data=myData, qos=0, onPublish=None)
+    print("Published data Successfully: %s", myData)
     client.commandCallback = myCommandCallback
     time.sleep(2)
 client.disconnect()
